@@ -13,7 +13,7 @@ Config = {
 	PickupActionDuration 	= math.random(4000, 6000),
 	DeliveryActionDuration 	= 5000,
 
-	MaxItemsReceived 	= 1,
+	MaxItemsReceived 	= 5,
 	MinItemReceivedQty 	= 5,
 	MaxItemReceivedQty 	= 5,
 
@@ -69,41 +69,41 @@ Config.TradeTime = 6000   -- How long it takes to trade in materials
 -----------------------------------------------
 -----------------------------------------------
 
--- These values determine the amount you get back per recycledmaterials
+-- These values determine the count you get back per recycledmaterials
 -- Ex: 1 Recycled Material = 5 Metal Scrap, and so on...
 -- You can also turn them in for quick cash per recycledmaterials
 
 Config.ItemPrices = {
 	["metalscrap"] = {
-		price = 5
+		price = 1
 	},
 
 	["iron"] = {
-		price = 5
+		price = 1
 	},
 
 	["steel"] = {
-		price = 5
+		price = 1
 	},
 
 	["aluminum"] = {
-		price = 5
+		price = 1
 	},
 
 	["copper"] = {
-		price = 5
+		price = 1
 	},
 
 	["plastic"] = {
-		price = 5
+		price = 1
 	},
 
 	["glass"] = {
-		price = 5
+		price = 1
 	},
 
 	["rubber"] = {
-		price = 5
+		price = 1
 	},
 }
 
