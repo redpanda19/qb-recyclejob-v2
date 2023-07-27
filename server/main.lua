@@ -3,16 +3,21 @@ local QBCore = exports['qb-core']:GetCoreObject()
 RegisterNetEvent('qb-recycle:server:getItem', function()  
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
-  local count = math.random(5, 30)
-  Player.Functions.AddItem("recycledmaterials", count)
-  TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['recycledmaterials'], 'add', count)
+  local count = math.random(5, 15)
+  local cancarry = exports.ox_inventory:CanCarryItem(src, 'recycledmaterials', count)
+  print(cancarry)
+  if cancarry then
+      Player.Functions.AddItem("recycledmaterials", count)
+      TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['recycledmaterials'], 'add', count)
+  else
+      print('You are Full')
+  end
 end)
 
 
 -------------------
 -- INPUT count --
 -------------------
-
 RegisterNetEvent("qb-recyclejob:TradeInput", function(item, count)
   print(item, count)
   local src = source
@@ -21,17 +26,21 @@ RegisterNetEvent("qb-recyclejob:TradeInput", function(item, count)
 
   local PlayerItem = Player.Functions.GetItemByName('recycledmaterials')
   -- Check if the player even has the item
-  if not PlayerItem then QBCore.Functions.Notify(source, 'You don\'t even have recycled materials') return end
+  if not PlayerItem then QBCore.Functions.Notify(src, 'You don\'t even have recycled materials') return end
   -- Check if the player has more than he put in
-  if PlayerItem.count < tradecount then QBCore.Functions.Notify(source, 'You don\'t have enough recycled materials') return end
+  if PlayerItem.count < tradecount then QBCore.Functions.Notify(src, 'You don\'t have enough recycled materials') return end
 
   local pay = (Config.ItemPrices[item].price * tradecount)
-  Player.Functions.RemoveItem('recycledmaterials', tradecount)
-  TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['recycledmaterials'], 'remove', tradecount)
-  Player.Functions.AddItem(item, pay)
-  TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[item], 'add', pay)
+  local cantrade = exports.ox_inventory:CanCarryItem(src, item, pay)
+  if cantrade then
+    Player.Functions.RemoveItem('recycledmaterials', tradecount)
+    TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['recycledmaterials'], 'remove', tradecount)
+    Player.Functions.AddItem(item, pay)
+    TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[item], 'add', pay)
+  else
+    print('Add your notify here')
+  end
 end)
-
 -------------------
 -- TRADE ALL --
 -------------------
